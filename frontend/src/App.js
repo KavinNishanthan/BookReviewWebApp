@@ -1,7 +1,12 @@
 import React from "react";
+import Base from "./Base";
 
 function App() {
-  return <>Watercooler</>;
+  return (
+  <div>
+    <Base />
+  </div>
+  );
 }
 
 export default App;
