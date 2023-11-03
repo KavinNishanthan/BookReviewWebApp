@@ -5,6 +5,7 @@ import { lazy } from 'react';
 const Home = lazy(() => import('../pages/HomePage'));
 const ReviewPage = lazy(() => import('../pages/ReviewPage'));
 const Categories = lazy(() => import('../pages/CategoriesPage'));
+const ProfilePage = lazy(() => import('../pages/ProfilePage'));
 
 export const navigationRouts = [
   {
@@ -19,8 +20,13 @@ export const navigationRouts = [
   },
   {
     name: 'ReviewPage',
-    path: '/reviewPage',
+    path: '/review',
     component: <ReviewPage />
+  },
+  {
+    name: 'ProfilePage',
+    path: '/profile',
+    component: <ProfilePage />
   }
 ];
 

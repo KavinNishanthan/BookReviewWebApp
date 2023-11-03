@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import BookButton from '../../FormComponents/BookButton';
 
 export function Header() {
@@ -15,17 +15,19 @@ export function Header() {
               <NavLink to="/Categories">Categories</NavLink>
             </li>
             <li>
-              <NavLink to="/Profile">Profile</NavLink>
+              <NavLink to="/profile">Profile</NavLink>
             </li>
           </ul>
         </div>
         <div>
-          <BookButton
-            className=" bg-red-600 text-white font-bold py-2 w-[6rem] rounded-lg"
-            children="Logout"
-            type="submit"
-            onClick={() => {}}
-          />
+          <Link to="/login">
+            <BookButton
+              className=" bg-red-600 text-white font-bold py-2 w-[6rem] rounded-lg"
+              children="Logout"
+              type="submit"
+              onClick={() => {}}
+            />
+          </Link>
         </div>
       </div>
     </>

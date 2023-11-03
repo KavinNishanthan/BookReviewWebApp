@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import BookInput from '../../components/FormComponents/BookInput';
 import BookButton from '../../components/FormComponents/BookButton';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';
 
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
 
-const Signup = () => {
+export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstname: '',
@@ -125,7 +125,7 @@ const Signup = () => {
               ) : (
                 <BookButton
                   className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
-                  children="Login"
+                  children="Sign Up"
                   type="submit"
                   onClick={() => {}}
                 />
@@ -133,7 +133,7 @@ const Signup = () => {
             </div>
           </form>
           <div className="text-m text-[#696868] mt-3 font-semibold">
-            Already have an account? <span className="text-black">{/* <Link to="/">Sign In</Link> */}</span>
+            Already have an account? <span className="text-black">{<Link to="/login">Login</Link>}</span>
           </div>
 
           <div className="text-m mt-12 text-[#878787]">
@@ -148,4 +148,3 @@ const Signup = () => {
   );
 };
 
-export default Signup;

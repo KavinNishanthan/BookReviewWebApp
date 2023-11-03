@@ -94,12 +94,14 @@ const LoginPage = () => {
               {isLoading ? (
                 <LoadingBtn />
               ) : (
-                <BookButton
-                  className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
-                  children="Login"
-                  type="submit"
-                  onClick={() => {}}
-                />
+                <Link to="/">
+                  <BookButton
+                    className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
+                    children="Login"
+                    type="submit"
+                    onClick={() => {}}
+                  />
+                </Link>
               )}
             </div>
           </form>
@@ -107,7 +109,9 @@ const LoginPage = () => {
           <div className="text-m text-[#696868] mt-3 font-semibold">
             New User?{' '}
             <span className="text-black">
-              <span>Sign Up</span>
+              <Link to="/register">
+                <span>Sign Up</span>
+              </Link>
             </span>
           </div>
           <div className="text-m mt-12 text-[#878787]">

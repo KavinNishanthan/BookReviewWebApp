@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function BookCard() {
   return (
     <div className="flex items-center justify-center mt-5">
@@ -66,9 +68,11 @@ export function BookCard() {
               <hr />
               <h1 className="mb-1">Categories : Horror</h1>
             </p>
-            <button className="rounded-full bg-neutral-900 px-3.5 py-2 font-com text-sm capitalize text-white shadow shadow-black/60">
-              See Review
-            </button>
+            <Link to="/review">
+              <button className="rounded-full bg-neutral-900 px-3.5 py-2 font-com text-sm capitalize text-white shadow shadow-black/60">
+                See Review
+              </button>
+            </Link>
           </div>
         </div>
       </div>
