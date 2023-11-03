@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import './style.css'; // Import your CSS file
-import { Header } from '../../components/UtilComponents/BookHeader';
 
-export function Categories() {
+export default function Categories() {
   const [products] = useState([
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Horror.jpg',
@@ -68,9 +67,6 @@ export function Categories() {
 
   return (
     <div>
-      <div>
-        <Header />
-      </div>
       <div className="footer-container">
         <div className="breads">
           <div className="box-container">

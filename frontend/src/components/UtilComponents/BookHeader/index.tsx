@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import BookButton from '../../FormComponents/BookButton';
 
 export function Header() {
@@ -7,9 +8,15 @@ export function Header() {
         <div className="text-4xl">Critique.</div>
         <div>
           <ul className="flex">
-            <li>Home</li>
-            <li className="pl-10 pr-10">Categories</li>
-            <li>About</li>
+            <li>
+              <NavLink to="/">Home</NavLink>
+            </li>
+            <li className="pl-10 pr-10">
+              <NavLink to="/Categories">Categories</NavLink>
+            </li>
+            <li>
+              <NavLink to="/Profile">Profile</NavLink>
+            </li>
           </ul>
         </div>
         <div>

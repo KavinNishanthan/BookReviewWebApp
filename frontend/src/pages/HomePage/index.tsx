@@ -1,12 +1,10 @@
-import { Header } from '../../components/UtilComponents/BookHeader';
 import booksimage from '../../assets/attraction/Home_Bg.jpeg';
 import BookInput from '../../components/FormComponents/BookInput';
 import { BookCard } from '../../components/UtilComponents/BookCard';
 
-export function Home() {
+export default function Home() {
   return (
     <div className=" bg-gray-100">
-      <div>{<Header />}</div>
       <div className="">
         <div className="relative bg-cover bg-no-repeat">
           <img src={booksimage} alt="Background Image" />
