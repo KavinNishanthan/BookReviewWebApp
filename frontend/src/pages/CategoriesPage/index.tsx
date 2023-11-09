@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './style.css'; // Import your CSS file
+import { Link } from 'react-router-dom';
 
 export default function Categories() {
   const [products] = useState([
@@ -83,9 +84,13 @@ export default function Categories() {
                     <i className={star} key={starIndex}></i>
                   ))}
                 </div>
-                <a href="#order" className="btn">
-                  {product.button}
-                </a>
+                <Link to="/listofcategories">
+                  <div>
+                    <a href="#order" className="btn">
+                      {product.button}
+                    </a>
+                  </div>
+                </Link>
               </div>
             ))}
           </div>
