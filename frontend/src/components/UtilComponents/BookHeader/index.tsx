@@ -33,7 +33,9 @@ export function Header() {
               className=" bg-red-600 text-white font-bold py-2 w-[6rem] rounded-lg"
               children="Logout"
               type="submit"
-              onClick={() => {}}
+              onClick={() => {
+                localStorage.clear();
+              }}
             />
           </Link>
         </div>

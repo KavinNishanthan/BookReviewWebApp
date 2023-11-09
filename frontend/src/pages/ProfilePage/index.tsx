@@ -17,17 +17,29 @@ export default function ProfilePage() {
     // Add more reviews as needed
   ];
 
+  var profile_url = localStorage.getItem('Profile_url');
+  var User_name = localStorage.getItem('User_name');
+  var User_email = localStorage.getItem('User_email');
+  var flag = localStorage.getItem('flag');
+
+  // const user_name = flag === '1' ? { User_name } : 'Robert';
+  // const user_emil = flag === '1' ? { User_email } : 'robert@gmail.com';
+
   return (
     <div>
       <div className="flex h-screen items-center justify-center">
-        <div className="bg-white shadow-2xl p-10 rounded-lg w-[50rem] h-[32rem]">
+        <div className="bg-white shadow-2xl p-10 rounded-lg w-[50rem] h-[32rem] -mt-10">
           <img
-            src="https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Horror.jpg"
+            src={
+              flag === '1'
+                ? profile_url
+                : 'https://bookreviewagile.s3.us-west-1.amazonaws.com/General/empty+profile.webp'
+            }
             alt="Profile"
             className="w-20 h-20 mx-auto rounded-full"
           />
-          <p className="text-3xl font-bold text-center mt-2">{'Kavin'}</p>
-          <p className="text-2xl text-gray-600 text-center">{'kavinnishanthan@gamil.com'}</p>
+          <p className="text-3xl font-bold text-center mt-2">{flag === '1' ? User_name : 'Robert'}</p>
+          <p className="text-2xl text-gray-600 text-center">{flag === '1' ? User_email : 'robert@gmail.com'}</p>
           <div>
             <div className="ml-10 mt-10">
               <p className="text-xl font-bold">

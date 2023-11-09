@@ -7,9 +7,12 @@ import BookButton from '../../components/FormComponents/BookButton';
 import Girlbook from '../../assets/attraction/Girlbook.svg';
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';
+import GoogleAuthConfiguration from '../../components/GoogleOAuthComponents';
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  localStorage.setItem('flag', '0');
 
   const [formData, setFormData] = useState({
     email: '',
@@ -50,8 +53,8 @@ const LoginPage = () => {
 
           <div className="fnt text-black text-sm mt-1">Unveil the World of Book Reviews.</div>
 
-          <div className="flex justify-center items-center mt-[5rem]">
-            {/* <GoogleLoginButton label="Login with Google" /> */}
+          <div className="flex justify-center items-center mt-[1rem]">
+            <GoogleAuthConfiguration />
           </div>
 
           <div className="flex justify-center items-center mt-5 pl-[1rem] pr-[1rem]">
