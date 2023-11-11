@@ -2,7 +2,6 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { Link } from 'react-router-dom';
 
 function GoogleSSOComponent() {
   return (
