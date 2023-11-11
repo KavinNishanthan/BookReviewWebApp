@@ -1,3 +1,4 @@
+// Importing assets
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 
 export default function ProfilePage() {

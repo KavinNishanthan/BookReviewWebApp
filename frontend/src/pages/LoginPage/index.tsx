@@ -1,9 +1,12 @@
+// Importing packages
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Importing components
 import BookInput from '../../components/FormComponents/BookInput';
 import BookButton from '../../components/FormComponents/BookButton';
 
+// Importing assets
 import Girlbook from '../../assets/attraction/Girlbook.svg';
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';

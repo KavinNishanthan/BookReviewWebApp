@@ -1,6 +1,9 @@
+// Importing packages
 import { useState } from 'react';
-import './style.css'; // Import your CSS file
 import { Link } from 'react-router-dom';
+
+// Importing styles
+import './style.css';
 
 export default function Categories() {
   const [products] = useState([

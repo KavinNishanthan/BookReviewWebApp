@@ -1,4 +1,6 @@
 import booksimage from '../../assets/attraction/Home_Bg.jpeg';
+
+// Importing components
 import BookInput from '../../components/FormComponents/BookInput';
 import { BookCard } from '../../components/UtilComponents/BookCard';
 

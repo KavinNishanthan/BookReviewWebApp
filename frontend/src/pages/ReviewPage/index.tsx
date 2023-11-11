@@ -1,4 +1,7 @@
+// Importing packages
 import { useState } from 'react';
+
+// Importing styles
 import './style.css';
 
 export default function ReviewPage() {

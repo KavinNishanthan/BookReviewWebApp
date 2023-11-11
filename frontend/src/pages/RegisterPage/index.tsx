@@ -1,9 +1,13 @@
+// Importing packages
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
+// Importing components
 import BookInput from '../../components/FormComponents/BookInput';
 import BookButton from '../../components/FormComponents/BookButton';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';
 
+// Importing assets
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
 
 export default function RegisterPage() {
@@ -146,5 +150,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-};
-
+}
