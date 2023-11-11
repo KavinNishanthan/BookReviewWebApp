@@ -17,7 +17,6 @@ const Footer = () => {
       imageSrc: '/images/f (1).jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
       button: 'FANTASY',
-      
     },
     {
       imageSrc: '/images/s (1).jpg',
