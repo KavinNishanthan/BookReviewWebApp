@@ -1,6 +1,6 @@
 // Importing packages
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Importing components
 import BookInput from '../../components/FormComponents/BookInput';
@@ -13,6 +13,7 @@ import LoadingBtn from '../../components/FormComponents/LoadingBtn';
 import GoogleAuthConfiguration from '../../components/GoogleOAuthComponents';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   localStorage.setItem('flag', '0');
@@ -27,8 +28,37 @@ const LoginPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async () => {
-    console.log('button clicked');
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:8080/api/auth/manual/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+      console.log('Server Response:', data);
+      localStorage.setItem('usid', data.userId);
+      localStorage.setItem('profile', data.profilePicture);
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('email', data.email);
+
+      if (response.status === 200) {
+        console.log('Logged in:', data);
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -100,14 +130,12 @@ const LoginPage = () => {
               {isLoading ? (
                 <LoadingBtn />
               ) : (
-                <Link to="/">
-                  <BookButton
-                    className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
-                    children="Login"
-                    type="submit"
-                    onClick={() => {}}
-                  />
-                </Link>
+                <BookButton
+                  className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
+                  children="Login"
+                  type="submit"
+                  onClick={() => {}}
+                />
               )}
             </div>
           </form>
@@ -120,6 +148,7 @@ const LoginPage = () => {
               </Link>
             </span>
           </div>
+
           <div className="text-m mt-12 text-[#878787]">
             <ul className="flex">
               <li className="p-2 pl-4">Privacy Policy</li>

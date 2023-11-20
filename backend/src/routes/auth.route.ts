@@ -9,6 +9,6 @@ const router = Router();
 
 // Manual auth routes
 router.post('/register', authController.handleRegister);
-router.post('/login', authController.handleLogin);
+router.post('/manual/login', authController.handleLogin);
 
 export default router;

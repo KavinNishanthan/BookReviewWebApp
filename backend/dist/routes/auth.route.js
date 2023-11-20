@@ -11,5 +11,5 @@ const auth_controller_1 = __importDefault(require("../controllers/auth.controlle
 const router = (0, express_1.Router)();
 // Manual auth routes
 router.post('/register', auth_controller_1.default.handleRegister);
-router.post('/login', auth_controller_1.default.handleLogin);
+router.post('/manual/login', auth_controller_1.default.handleLogin);
 exports.default = router;
