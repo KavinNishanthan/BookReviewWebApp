@@ -21,12 +21,22 @@ interface IBook {
   imageUrl: string;
 }
 
-interface IUserReview {
-  bookId: string;
+
+interface IReview {
   userId: string;
+  userName: string;
   userReview: string;
   createdAt?: Date;
-  updateAt?: Date;
+  updatedAt?: Date;
 }
 
-export { IUser, IBook, IUserReview };
+interface IUserReview {
+  bookId: string;
+  reviews: IReview[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export { IUser, IBook, IUserReview, IReview };
+
+
