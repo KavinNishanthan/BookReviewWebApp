@@ -77,6 +77,24 @@ const handleAddBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .json({ status: http_message_constant_1.default.ERROR, code: axios_1.HttpStatusCode.InternalServerError });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to fetch the books
+ */
+const fetchBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const book = yield book_model_1.default.find();
+        res.json(book);
+    }
+    catch (err) {
+        console.error('Error fetching books:', err);
+        res
+            .status(axios_1.HttpStatusCode.InternalServerError)
+            .json({ status: http_message_constant_1.default.ERROR, code: axios_1.HttpStatusCode.InternalServerError });
+    }
+});
 exports.default = {
-    handleAddBook
+    handleAddBook,
+    fetchBooks
 };

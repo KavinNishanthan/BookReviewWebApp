@@ -72,6 +72,26 @@ const handleAddBook = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to fetch the books
+ */
+
+
+const fetchBooks = async (req: Request, res: Response) => {
+  try {
+    const book = await bookModel.find();
+    res.json(book);
+  } catch (err: any) {
+    console.error('Error fetching books:', err);
+    res
+      .status(HttpStatusCode.InternalServerError)
+      .json({ status: httpStatusConstant.ERROR, code: HttpStatusCode.InternalServerError });
+  }
+};
+
 export default {
-  handleAddBook
+  handleAddBook,
+  fetchBooks
 };

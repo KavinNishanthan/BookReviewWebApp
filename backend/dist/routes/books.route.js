@@ -9,6 +9,7 @@ const express_1 = require("express");
 const book_controller_1 = __importDefault(require("../controllers/book.controller"));
 // Defining routers
 const router = (0, express_1.Router)();
-// Manual auth routes
+//Book routes
 router.post('/addBook', book_controller_1.default.handleAddBook);
+router.get('/fetch-book', book_controller_1.default.fetchBooks);
 exports.default = router;
