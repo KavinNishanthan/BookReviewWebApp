@@ -1,5 +1,5 @@
 // Importing assets
-import { Player, Controls } from '@lottiefiles/react-lottie-player';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 export default function ProfilePage() {
   const reviews = [
@@ -8,39 +8,21 @@ export default function ProfilePage() {
       bookName: 'Book name',
       userReview:
         "I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much."
-    },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." },
-    { bookName: 'Book name', userReview: "I didn't like this book very much." }
+    }
     // Add more reviews as needed
   ];
 
-  var profile_url = localStorage.getItem('Profile_url');
-  var User_name = localStorage.getItem('User_name');
-  var User_email = localStorage.getItem('User_email');
-  var flag = localStorage.getItem('flag');
-
-  // const user_name = flag === '1' ? { User_name } : 'Robert';
-  // const user_emil = flag === '1' ? { User_email } : 'robert@gmail.com';
+  var profile_url = localStorage.getItem('profile');
+  var User_name = localStorage.getItem('name');
+  var User_email = localStorage.getItem('email');
 
   return (
     <div>
       <div className="flex h-screen items-center justify-center">
         <div className="bg-white shadow-2xl p-10 rounded-lg w-[50rem] h-[32rem] -mt-10">
-          <img
-            src={
-              flag === '1'
-                ? profile_url
-                : 'https://bookreviewagile.s3.us-west-1.amazonaws.com/General/empty+profile.webp'
-            }
-            alt="Profile"
-            className="w-20 h-20 mx-auto rounded-full"
-          />
-          <p className="text-3xl font-bold text-center mt-2">{flag === '1' ? User_name : 'Robert'}</p>
-          <p className="text-2xl text-gray-600 text-center">{flag === '1' ? User_email : 'robert@gmail.com'}</p>
+          <img src={profile_url} alt="Profile" className="w-20 h-20 mx-auto rounded-full" />
+          <p className="text-3xl font-bold text-center mt-2">{User_name}</p>
+          <p className="text-2xl text-gray-600 text-center">{User_email}</p>
           <div>
             <div className="ml-10 mt-10">
               <p className="text-xl font-bold">
