@@ -7,21 +7,35 @@ import { useParams } from 'react-router-dom';
 
 export default function ReviewPage() {
   const [comment, setComment] = useState<string>('');
-  const [comments, setComments] = useState<string[]>([]);
+  const [comments, setComments] = useState([]);
   const { bookId } = useParams();
   const [book, setBook] = useState();
+  var User_name = localStorage.getItem('name');
+  var User_id = localStorage.getItem('usid');
+  var bdfetch = 1;
+
+  const fetchReviews = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/review/fetch-review/${bookId}`);
+      const data = await response.json();
+      setComments(data);
+      console.log(data);
+    } catch (error) {
+      console.error('Error fetching review:', error);
+    }
+  };
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/book/fetch-book/review/${bookId}`)
       .then((response) => response.json())
       .then((data) => {
         setBook(data);
-        console.log(data);
+        fetchReviews();
       })
       .catch((error) => console.error('Error fetching books:', error));
   }, [bookId]);
 
-  if (book === undefined) {
+  if (book === undefined || comments === undefined) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div role="status">
@@ -47,10 +61,39 @@ export default function ReviewPage() {
     );
   }
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (comment.trim() !== '') {
-      setComments([...comments, comment]);
-      setComment('');
+      try {
+        const response = await fetch('http://localhost:8080/api/review/addReview', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            bookId: bookId,
+            userId: User_id,
+            userName: User_name,
+            userReview: comment.trim()
+          })
+        });
+
+        if (response.status === 201) {
+          if (bdfetch === 1) {
+            bdfetch = 0;
+          } else {
+            bdfetch = 1;
+          }
+          alert('Your Review is Added Successfully');
+          setComment('');
+          fetchReviews();
+        } else {
+          if (response.status === 400) {
+            alert(response.status);
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -125,8 +168,8 @@ export default function ReviewPage() {
                 <div className="">
                   {comments.map((comment, index) => (
                     <div key={index} className="mb-1">
-                      <div className="text-xl">kavin</div>
-                      <div className="ml-6">{comment}</div>
+                      <div className="text-xl">{comment.userName}</div>
+                      <div className="ml-6">{comment.userReview}</div>
                     </div>
                   ))}
                 </div>

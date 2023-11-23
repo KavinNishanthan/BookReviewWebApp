@@ -76,6 +76,83 @@ const handleUserReview = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to Fetch user Review
+ */
+const fetchReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { bookId } = req.params;
+        const bookIdValidation = joi_1.default.object({
+            bookId: joi_1.default.string().required()
+        });
+        const { error } = bookIdValidation.validate(req.params);
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        const book = yield review_model_1.default.findOne({ bookId: bookId });
+        if (book) {
+            const { reviews } = book;
+            if (reviews) {
+                res.json(reviews);
+            }
+            else {
+                res.json([]);
+            }
+        }
+        else {
+            res.json([]);
+        }
+    }
+    catch (err) {
+        console.error('Error fetching horror books:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError
+        });
+    }
+});
+const fetchUserReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId } = req.params;
+        const userIdValidation = joi_1.default.object({
+            userId: joi_1.default.string().required()
+        });
+        const { error } = userIdValidation.validate(req.params);
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        const data = yield review_model_1.default.aggregate([
+            { $unwind: '$reviews' },
+            { $match: { 'reviews.userId': userId } },
+            { $group: { _id: null, reviews: { $push: '$reviews' } } } // Group back into a single array
+        ]);
+        if (data.length > 0) {
+            res.json(data[0].reviews);
+        }
+        else {
+            res.json([]);
+        }
+    }
+    catch (err) {
+        console.error('Error fetching user reviews:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError
+        });
+    }
+});
 exports.default = {
-    handleUserReview
+    handleUserReview,
+    fetchReview,
+    fetchUserReview
 };

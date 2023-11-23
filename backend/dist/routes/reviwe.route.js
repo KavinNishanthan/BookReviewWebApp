@@ -11,4 +11,6 @@ const review_controller_1 = __importDefault(require("../controllers/review.contr
 const router = (0, express_1.Router)();
 // Manual auth routes
 router.post('/addReview', review_controller_1.default.handleUserReview);
+router.get('/fetch-review/:bookId', review_controller_1.default.fetchReview);
+router.get('/fetch-review/user/:userId', review_controller_1.default.fetchUserReview);
 exports.default = router;

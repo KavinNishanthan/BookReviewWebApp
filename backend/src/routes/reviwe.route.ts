@@ -9,6 +9,8 @@ const router = Router();
 
 // Manual auth routes
 router.post('/addReview', reviewController.handleUserReview);
+router.get('/fetch-review/:bookId', reviewController.fetchReview);
+router.get('/fetch-review/user/:userId', reviewController.fetchUserReview);
 
 export default router;
 

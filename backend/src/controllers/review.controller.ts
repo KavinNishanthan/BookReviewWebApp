@@ -2,21 +2,18 @@
 import Joi from 'joi';
 import { HttpStatusCode } from 'axios';
 import { Request, Response } from 'express';
-import { generateUUID } from '../helpers/uuid.helper';
 
 // Importing models
 import reviewModel from '../models/review.model';
 
 // Importing constants
 import httpStatusConstant from '../constants/http-message.constant';
-import responseMessageConstant from '../constants/response-message.constant';
 
 /**
  * @createdBy Kavin Nishanthan
  * @createdAt 2023-11-09
  * @description This function is used to handle user Review
  */
-
 
 const handleUserReview = async (req: Request, res: Response) => {
   try {
@@ -76,6 +73,90 @@ const handleUserReview = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to Fetch user Review
+ */
+
+const fetchReview = async (req: Request, res: Response) => {
+  try {
+    const { bookId } = req.params;
+
+    const bookIdValidation = Joi.object({
+      bookId: Joi.string().required()
+    });
+
+    const { error } = bookIdValidation.validate(req.params);
+
+    if (error) {
+      return res.status(HttpStatusCode.BadRequest).json({
+        status: httpStatusConstant.BAD_REQUEST,
+        code: HttpStatusCode.BadRequest,
+        message: error.details[0].message.replace(/"/g, '')
+      });
+    }
+
+    const book = await reviewModel.findOne({ bookId: bookId });
+    if (book) {
+      const { reviews } = book;
+      if (reviews) {
+        res.json(reviews);
+      } else {
+        res.json([]);
+      }
+    } else {
+      res.json([]);
+    }
+  } catch (err: any) {
+    console.error('Error fetching horror books:', err);
+    res.status(HttpStatusCode.InternalServerError).json({
+      status: httpStatusConstant.ERROR,
+      code: HttpStatusCode.InternalServerError
+    });
+  }
+};
+
+const fetchUserReview = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    const userIdValidation = Joi.object({
+      userId: Joi.string().required()
+    });
+
+    const { error } = userIdValidation.validate(req.params);
+
+    if (error) {
+      return res.status(HttpStatusCode.BadRequest).json({
+        status: httpStatusConstant.BAD_REQUEST,
+        code: HttpStatusCode.BadRequest,
+        message: error.details[0].message.replace(/"/g, '')
+      });
+    }
+
+    const data = await reviewModel.aggregate([
+      { $unwind: '$reviews' }, // Unwind the reviews array
+      { $match: { 'reviews.userId': userId } }, // Match reviews with the given userId
+      { $group: { _id: null, reviews: { $push: '$reviews' } } } // Group back into a single array
+    ]);
+
+    if (data.length > 0) {
+      res.json(data[0].reviews);
+    } else {
+      res.json([]);
+    }
+  } catch (err: any) {
+    console.error('Error fetching user reviews:', err);
+    res.status(HttpStatusCode.InternalServerError).json({
+      status: httpStatusConstant.ERROR,
+      code: HttpStatusCode.InternalServerError
+    });
+  }
+};
+
 export default {
-  handleUserReview
+  handleUserReview,
+  fetchReview,
+  fetchUserReview
 };
