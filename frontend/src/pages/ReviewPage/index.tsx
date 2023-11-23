@@ -2,112 +2,139 @@
 import { useEffect, useState } from 'react';
 
 // Importing styles
-import './style.css';
+import './style.scss';
 import { useParams } from 'react-router-dom';
 
 export default function ReviewPage() {
-  // State to store book reviews
-  const [reviews, setReviews] = useState([]);
-  const [reviewText, setReviewText] = useState('');
+  const [comment, setComment] = useState<string>('');
+  const [comments, setComments] = useState<string[]>([]);
   const { bookId } = useParams();
   const [book, setBook] = useState();
-
-  // Function to handle submission
-  const handleReviewSubmit = () => {
-    if (reviewText.trim() !== '') {
-      setReviews([...reviews, reviewText]);
-      setReviewText('');
-    }
-  };
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/book/fetch-book/review/${bookId}`)
       .then((response) => response.json())
       .then((data) => {
         setBook(data);
+        console.log(data);
       })
       .catch((error) => console.error('Error fetching books:', error));
   }, [bookId]);
 
-  return (
-    <div className="page-container">
-      <div className="content-container">
-        <div className="image-container">
-          <img
-            className="book-image"
-            src="https://bookreviewagile.s3.us-west-1.amazonaws.com/Books/Pride+and+Prejudice.jpeg"
-            alt="Book Cover"
-          />
+  if (book === undefined) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div role="status">
+          <svg
+            aria-hidden="true"
+            className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+            viewBox="0 0 100 101"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+              fill="currentColor"
+            />
+            <path
+              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+              fill="currentFill"
+            />
+          </svg>
+          <span className="sr-only">Loading...</span>
         </div>
-        <div className="review-form">
-          <div className="content-box">
-            <div className="content-box-title">Book Information</div>
-            <div className="content-item">
-              <div className="content-label">Title:</div>
-              <div className="content-text">Pride and Prejudice</div>
+      </div>
+    );
+  }
+
+  const handleCommentSubmit = () => {
+    if (comment.trim() !== '') {
+      setComments([...comments, comment]);
+      setComment('');
+    }
+  };
+
+  return (
+    <div className="p-10 bg-slate-200">
+      <div className="page-container">
+        <div className="flex">
+          <div className="w-1/2">
+            <div className="ml-[17rem]">
+              <img className="book-image" src={book[0].imageUrl} alt="Book Cover" />
             </div>
-            <div className="content-item">
-              <div className="content-label">Author's Name:</div>
-              <div className="content-text">Jane Austen</div>
+          </div>
+          <div className="w-1/3 flex justify-items-center">
+            <div className="content-box">
+              <div className="content-box-title mt-3">Book Information</div>
+              <div className="content-item">
+                <div className="content-label">
+                  Title : <span>{book[0].title}</span>
+                </div>
+              </div>
+              <div className="content-item">
+                <div className="content-label">
+                  Author's Name : <span>{book[0].author}</span>
+                </div>
+              </div>
+              <div className="content-item">
+                <div className="content-label">
+                  Genre : <span>{book[0].category}</span>
+                </div>
+              </div>
+              <div className="content-item">
+                <div className="content-label">
+                  Rating : <span></span>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+        <div className="flex ml-[7rem]">
+          <div className="">
             <div className="content-item">
-              <div className="content-label">Genre:</div>
-              <div className="content-text">Romantic Novel</div>
+              <h2 className="review-title text-blue-400">Review</h2>
+              <div className="text-base">{book[0].review}</div>
             </div>
-            <div className="content-item">
-              <div className="content-label">Favorite Quote:</div>
-              <div className="content-text">Till this moment I never knew myself.</div>
+          </div>
+        </div>
+
+        <div className=" bg-white rounded-lg">
+          <div className="h-[20rem] p-5 flex border border-gray-300 rounded-lg shadow-md">
+            <div className="flex-1 pr-4">
+              <h2 className="text-xl font-semibold mb-4 text-blue-400">Write a Review</h2>
+              <div className="mb-4">
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  rows={4}
+                  placeholder="Type your comment here..."
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                />
+              </div>
+              <button
+                className="bg-green-400 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                onClick={handleCommentSubmit}
+              >
+                Add Review
+              </button>
             </div>
-            <div className="content-item">
-              <div className="content-label">Favorite Character:</div>
-              <div className="content-text">Elizabeth Bennet and Fitzwilliam Darcy. </div>
-            </div>
-            <div className="content-item">
-              <div className="content-label">Rating:</div>
-              <div className="rating-box">
-                <span className="star">&#9733;</span>
-                <span className="star">&#9733;</span>
-                <span className="star">&#9733;</span>
-                <span className="star">&#9733;</span>
-                <span className="star">&#9733;</span>
+
+            <div className="flex-1 ">
+              <h2 className="text-xl font-semibold mb-4 text-blue-500">User Review</h2>
+              <div className="p-2 border border-gray-300 rounded-md h-[14.5rem] overflow-x-hidden overflow-y-auto w-[50rem]">
+                <div className="">
+                  {comments.map((comment, index) => (
+                    <div key={index} className="mb-1">
+                      <div className="text-xl">kavin</div>
+                      <div className="ml-6">{comment}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="content-item">
-        <h2 className="review-title">Review</h2>
-        <p className="review-text">
-          Pride and Prejudice is a novel of all time. It has captivated the hearts of readers across ages. The
-          interesting plot captures the reader’s attention from the very first line. As it is narrated through the
-          perspective of Elizabeth Bennet, readers will get the feel of living alongside the Bennet family. As Elizabeth
-          undergoes a change in perspective and character, readers get a picture of the other characters present in the
-          novel and the time of the novel. One could understand the novel well in the very first reading. Though young
-          readers of the present may find it difficult to understand the plot in a certain part, yet, close reading and
-          a background knowledge of Austen’s time will help one understand the novel better and enjoy.
-        </p>
-      </div>
-      <div className="content-item">
-        <div className="review-form">
-          <h2 className="review-title">Write a Review</h2>
-          <textarea
-            placeholder="Write your review here"
-            value={reviewText}
-            onChange={(e) => setReviewText(e.target.value)}
-          />
-          <button onClick={handleReviewSubmit}>Submit Review</button>
-        </div>
-      </div>
-      {reviews.length > 0 && (
-        <div className="content-item">
-          <h2 className="review-title">User Reviews</h2>
-          <ul>
-            {reviews.map((userReview, index) => (
-              <li key={index}>{userReview}</li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

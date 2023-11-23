@@ -2,48 +2,21 @@
 .page-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    color:black;
-  }
-  
-  .title-container {
-    font-family: 'cursive', cursive;
-    font-size: 36px;
-    margin: 20px 0;
   }
   
   .content-container {
     display: flex;
     text-align: center;
     text-emphasis-color: white;
-    flex: 1; /* Make the image-container and review-form share equal space */
-  }
-  
-  .image-container {
-    flex: 1; /* Cover half of the available space */
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .image-title {
-    font-size: 30px;
-    margin-bottom: 10px;
   }
   
   .book-image {
-    max-width: 100%; /* Cover the full width of the container */
-    max-height: 70%; /* Reduce the maximum height to 50% of the viewport height */
+    height: 24rem; 
+    width: 18rem; 
   }
   
   .review-form {
-    flex: 1; /* Cover the other half of the available space */
+    flex: 1; 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -51,14 +24,11 @@
   }
   
   .content-box {
-    flex: 1; /* Cover the available width */
-    border: 1px solid #fff; /* White border */
-    border-radius: 5px;
-    padding: 20px;
-    margin: 10px;
-    /*background-color: #fff; /* White background */
-    color: black; /* Pink text color */
-    width: 80%; /* Adjust the width as needed */
+    border: 1px solid #fff; 
+    padding: 5px;
+    padding-left: 32px;
+    color: black; 
+    width: 90%; 
     background-color:#d8bfd8;
   }
   
@@ -84,14 +54,7 @@
     width: 90%; /* Expand to full width of content-box */
     background-color: #fff;
   }
-  .rating-box {
-    font-size: 24px;
-    color: black; /* Set the color of stars to gold */
-  }
   
-  .star {
-    display: inline-block;
-  }
   .review-box {
     flex: 1; /* Cover the available width */
     width: 90%;
@@ -120,11 +83,7 @@
   }
   
   .review-form {
-    flex: 1;
     background-color: #fff;
-    padding: 20px;
-    margin: 10px 0;
-    /*color: #fe4164;*/
     color: black;
   }
   
