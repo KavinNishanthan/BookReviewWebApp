@@ -21,7 +21,7 @@ export const navigationRouts = [
   },
   {
     name: 'ReviewPage',
-    path: '/review',
+    path: '/review/:bookId',
     component: <ReviewPage />
   },
   {
@@ -31,7 +31,7 @@ export const navigationRouts = [
   },
   {
     name: 'ListOfCategoriesPage',
-    path: '/listofcategories',
+    path: '/listofcategories/:category',
     component: <ListOfCategoriesPage />
   }
 ];

@@ -12,4 +12,5 @@ const router = (0, express_1.Router)();
 //Book routes
 router.post('/addBook', book_controller_1.default.handleAddBook);
 router.get('/fetch-book', book_controller_1.default.fetchBooks);
+router.get('/fetch-book/categories/:category', book_controller_1.default.fetchByCategories);
 exports.default = router;

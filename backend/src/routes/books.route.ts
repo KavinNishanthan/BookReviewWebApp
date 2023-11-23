@@ -10,5 +10,6 @@ const router = Router();
 //Book routes
 router.post('/addBook', bookController.handleAddBook);
 router.get('/fetch-book', bookController.fetchBooks);
+router.get('/fetch-book/categories/:category', bookController.fetchByCategories);
 
 export default router;

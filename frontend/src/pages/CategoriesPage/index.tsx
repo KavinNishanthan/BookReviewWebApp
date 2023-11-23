@@ -1,6 +1,6 @@
 // Importing packages
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Importing styles
 import './style.css';
@@ -10,64 +10,70 @@ export default function Categories() {
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Horror.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'HORROR'
+      button: 'Horror'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Thriller.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'THRILLER'
+      button: 'Thriller'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Fantasy.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'FANTASY'
+      button: 'Fantasy'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Sci-Fi.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'SCI-FI'
+      button: 'Science Fiction'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Autobiography.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'AUTOBIOGRAPHY'
+      button: 'Autobiography'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Novels.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'NOVELS'
+      button: 'Novel'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Historic.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'HISTORIC'
+      button: 'Historic'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Comics.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'COMICS'
+      button: 'Comics'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Mystery.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'MYSTERY'
+      button: 'Mystery'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Dystopian.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'DYSTOPIAN'
+      button: 'Dystopian'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Adventure.jpg',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'ADVENTURE'
+      button: 'Adventure'
     },
     {
       imageSrc: 'https://bookreviewagile.s3.us-west-1.amazonaws.com/Gener/Memoir.png',
       stars: ['fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star', 'fas fa-star-half-alt'],
-      button: 'MEMOIR'
+      button: 'Memoir'
     }
   ]);
+
+  const navigate = useNavigate();
+
+  const handleButtonClick = (category: string) => {
+    navigate(`/listofcategories/${category}`);
+  };
 
   return (
     <div>
@@ -87,13 +93,16 @@ export default function Categories() {
                     <i className={star} key={starIndex}></i>
                   ))}
                 </div>
-                <Link to="/listofcategories">
-                  <div>
-                    <a href="#order" className="btn">
-                      {product.button}
-                    </a>
-                  </div>
-                </Link>
+                <div>
+                  <a
+                    className="btn"
+                    onClick={() => {
+                      handleButtonClick(product.button);
+                    }}
+                  >
+                    {product.button}
+                  </a>
+                </div>
               </div>
             ))}
           </div>

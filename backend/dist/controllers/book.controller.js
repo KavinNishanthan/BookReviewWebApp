@@ -80,7 +80,7 @@ const handleAddBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 /**
  * @createdBy Kavin Nishanthan
  * @createdAt 2023-11-09
- * @description This function is used to fetch the books
+ * @description This function is used to fetch All the books
  */
 const fetchBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -94,7 +94,69 @@ const fetchBooks = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .json({ status: http_message_constant_1.default.ERROR, code: axios_1.HttpStatusCode.InternalServerError });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to fetch a book
+ */
+const fetchByBookId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { bookId } = req.body;
+        const bookIdValidation = joi_1.default.object({
+            bookId: joi_1.default.string().required()
+        });
+        const { error } = bookIdValidation.validate(req.body);
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        const books = yield book_model_1.default.find({ bookId: bookId });
+        res.json(books);
+    }
+    catch (err) {
+        console.error('Error fetching horror books:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError,
+        });
+    }
+});
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to fetch the books by Categories
+ */
+const fetchByCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { category } = req.params;
+        const categoryValidation = joi_1.default.object({
+            category: joi_1.default.string().required()
+        });
+        const { error } = categoryValidation.validate(req.params);
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        console.log(category);
+        const books = yield book_model_1.default.find({ category: category });
+        res.json(books);
+    }
+    catch (err) {
+        console.error('Error fetching horror books:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError,
+        });
+    }
+});
 exports.default = {
     handleAddBook,
-    fetchBooks
+    fetchBooks,
+    fetchByCategories
 };

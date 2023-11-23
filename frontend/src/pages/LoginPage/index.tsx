@@ -53,6 +53,13 @@ const LoginPage = () => {
       if (response.status === 200) {
         console.log('Logged in:', data);
         navigate('/');
+      } else {
+        if (response.status === 404) {
+          alert("Account Not yet Registered");
+        }
+        if (response.status === 401) {
+          alert("Invalid Credentials!");
+        }
       }
     } catch (error) {
       console.error('Error:', error);
