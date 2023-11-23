@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import './style.css';
+import './style.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function ListOfCategoriesPage() {
@@ -50,7 +50,7 @@ export default function ListOfCategoriesPage() {
     <div className="p-20 bg-slate-200">
       {books.map((book: any) => {
         return (
-          <div className="" key={book.bookId}>
+          <div className="wrapper-listof-cat" key={book.bookId}>
             <div className="bg-white rounded-xl overflow-hidden shadow-md mb-6 p-6">
               <div className="">
                 <div className="">

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Importing styles
-import './style.css';
+import './style.scss';
 
 export default function Categories() {
   const [products] = useState([
@@ -76,7 +76,7 @@ export default function Categories() {
   };
 
   return (
-    <div>
+    <div className="wrapper-cat-page">
       <div className="footer-container">
         <div className="breads">
           <div className="box-container">
