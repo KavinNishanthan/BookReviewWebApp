@@ -152,25 +152,55 @@ const fetchByCategories = async (req: Request, res: Response) => {
       });
     }
 
-    console.log(category)
-    
     const books = await bookModel.find({ category: category });
     res.json(books);
-
   } catch (err: any) {
     console.error('Error fetching horror books:', err);
     res.status(HttpStatusCode.InternalServerError).json({
       status: httpStatusConstant.ERROR,
-      code: HttpStatusCode.InternalServerError,
+      code: HttpStatusCode.InternalServerError
     });
   }
 };
 
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to see the Review
+ */
 
+const fetchForReview = async (req: Request, res: Response) => {
+  try {
+    const { bookId } = req.params;
 
+    const bookIdValidation = Joi.object({
+      bookId: Joi.string().required()
+    });
+
+    const { error } = bookIdValidation.validate(req.params);
+
+    if (error) {
+      return res.status(HttpStatusCode.BadRequest).json({
+        status: httpStatusConstant.BAD_REQUEST,
+        code: HttpStatusCode.BadRequest,
+        message: error.details[0].message.replace(/"/g, '')
+      });
+    }
+
+    const book = await bookModel.find({ bookId: bookId });
+    res.json(book);
+  } catch (err: any) {
+    console.error('Error fetching horror books:', err);
+    res.status(HttpStatusCode.InternalServerError).json({
+      status: httpStatusConstant.ERROR,
+      code: HttpStatusCode.InternalServerError
+    });
+  }
+};
 
 export default {
   handleAddBook,
   fetchBooks,
-  fetchByCategories
+  fetchByCategories,
+  fetchForReview
 };

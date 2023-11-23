@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import './style.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function ListOfCategoriesPage() {
-  const [books, setBooks] = useState();
+  const [books, setBooks] = useState([]);
   const { category } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/book/fetch-book/categories/${category}`)
@@ -14,6 +15,10 @@ export default function ListOfCategoriesPage() {
       })
       .catch((error) => console.error('Error fetching books:', error));
   }, [category]);
+
+  const handleButtonClick = (bookId: string) => {
+    navigate(`/review/${bookId}`);
+  };
 
   if (books === undefined) {
     return (
@@ -63,7 +68,14 @@ export default function ListOfCategoriesPage() {
                   <div>
                     <span className="text-xl">One line story : </span> {book.oneLineStory}
                   </div>
-                  <a className="btn">See Review</a>
+                  <a
+                    className="btn"
+                    onClick={() => {
+                      handleButtonClick(book.bookId);
+                    }}
+                  >
+                    See Review
+                  </a>
                 </div>
               </div>
             </div>

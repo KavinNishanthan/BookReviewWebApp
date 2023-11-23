@@ -143,7 +143,6 @@ const fetchByCategories = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 message: error.details[0].message.replace(/"/g, '')
             });
         }
-        console.log(category);
         const books = yield book_model_1.default.find({ category: category });
         res.json(books);
     }
@@ -151,12 +150,43 @@ const fetchByCategories = (req, res) => __awaiter(void 0, void 0, void 0, functi
         console.error('Error fetching horror books:', err);
         res.status(axios_1.HttpStatusCode.InternalServerError).json({
             status: http_message_constant_1.default.ERROR,
-            code: axios_1.HttpStatusCode.InternalServerError,
+            code: axios_1.HttpStatusCode.InternalServerError
+        });
+    }
+});
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used to see the Review
+ */
+const fetchForReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { bookId } = req.params;
+        const bookIdValidation = joi_1.default.object({
+            bookId: joi_1.default.string().required()
+        });
+        const { error } = bookIdValidation.validate(req.params);
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        const book = yield book_model_1.default.find({ bookId: bookId });
+        res.json(book);
+    }
+    catch (err) {
+        console.error('Error fetching horror books:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError
         });
     }
 });
 exports.default = {
     handleAddBook,
     fetchBooks,
-    fetchByCategories
+    fetchByCategories,
+    fetchForReview
 };

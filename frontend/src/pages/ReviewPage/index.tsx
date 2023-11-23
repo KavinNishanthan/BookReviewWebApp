@@ -1,15 +1,16 @@
 // Importing packages
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Importing styles
 import './style.css';
+import { useParams } from 'react-router-dom';
 
 export default function ReviewPage() {
   // State to store book reviews
   const [reviews, setReviews] = useState([]);
-
-  // State to capture
   const [reviewText, setReviewText] = useState('');
+  const { bookId } = useParams();
+  const [book, setBook] = useState();
 
   // Function to handle submission
   const handleReviewSubmit = () => {
@@ -19,14 +20,19 @@ export default function ReviewPage() {
     }
   };
 
+  useEffect(() => {
+    fetch(`http://localhost:8080/api/book/fetch-book/review/${bookId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBook(data);
+      })
+      .catch((error) => console.error('Error fetching books:', error));
+  }, [bookId]);
+
   return (
     <div className="page-container">
-      <div className="title-container">
-        <h1 className="book-title">Book Review</h1>
-      </div>
       <div className="content-container">
         <div className="image-container">
-          <h2 className="image-title">Book Cover</h2>
           <img
             className="book-image"
             src="https://bookreviewagile.s3.us-west-1.amazonaws.com/Books/Pride+and+Prejudice.jpeg"
