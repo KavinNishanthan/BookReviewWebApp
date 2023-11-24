@@ -134,10 +134,35 @@ const fetchUserReview = (req, res) => __awaiter(void 0, void 0, void 0, function
         const data = yield review_model_1.default.aggregate([
             { $unwind: '$reviews' },
             { $match: { 'reviews.userId': userId } },
-            { $group: { _id: null, reviews: { $push: '$reviews' } } } // Group back into a single array
+            {
+                $group: {
+                    _id: {
+                        bookId: '$bookId',
+                        userId: '$reviews.userId'
+                    },
+                    reviews: { $push: '$reviews' }
+                }
+            },
+            {
+                $lookup: {
+                    from: 'books',
+                    localField: '_id.bookId',
+                    foreignField: 'bookId',
+                    as: 'bookInfo'
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    bookId: '$_id.bookId',
+                    userId: '$_id.userId',
+                    userReview: { $arrayElemAt: ['$reviews.userReview', 0] },
+                    bookTitle: { $arrayElemAt: ['$bookInfo.title', 0] }
+                }
+            }
         ]);
         if (data.length > 0) {
-            res.json(data[0].reviews);
+            res.json(data);
         }
         else {
             res.json([]);
@@ -151,8 +176,48 @@ const fetchUserReview = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
+const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { userId, bookId } = req.body; // Assuming you send userId and bookId in the request body
+        const userIdValidation = joi_1.default.object({
+            userId: joi_1.default.string().required(),
+            bookId: joi_1.default.string().required()
+        });
+        const { error } = userIdValidation.validate({ userId, bookId });
+        if (error) {
+            return res.status(axios_1.HttpStatusCode.BadRequest).json({
+                status: http_message_constant_1.default.BAD_REQUEST,
+                code: axios_1.HttpStatusCode.BadRequest,
+                message: error.details[0].message.replace(/"/g, '')
+            });
+        }
+        const result = yield review_model_1.default.updateOne({ 'reviews.userId': userId }, { $pull: { reviews: { userId } } });
+        if (result.modifiedCount > 0) {
+            res.json({
+                status: http_message_constant_1.default.SUCCESS,
+                code: axios_1.HttpStatusCode.Ok,
+                message: 'Review deleted successfully'
+            });
+        }
+        else {
+            res.status(axios_1.HttpStatusCode.NotFound).json({
+                status: http_message_constant_1.default.NOT_FOUND,
+                code: axios_1.HttpStatusCode.NotFound,
+                message: 'Review not found for the specified user and book'
+            });
+        }
+    }
+    catch (err) {
+        console.error('Error deleting user review:', err);
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError
+        });
+    }
+});
 exports.default = {
     handleUserReview,
     fetchReview,
-    fetchUserReview
+    fetchUserReview,
+    deleteReview
 };

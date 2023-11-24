@@ -12,7 +12,6 @@ export default function ReviewPage() {
   const [book, setBook] = useState();
   var User_name = localStorage.getItem('name');
   var User_id = localStorage.getItem('usid');
-  var bdfetch = 1;
 
   const fetchReviews = async () => {
     try {
@@ -78,11 +77,6 @@ export default function ReviewPage() {
         });
 
         if (response.status === 201) {
-          if (bdfetch === 1) {
-            bdfetch = 0;
-          } else {
-            bdfetch = 1;
-          }
           alert('Your Review is Added Successfully');
           setComment('');
           fetchReviews();

@@ -136,13 +136,38 @@ const fetchUserReview = async (req: Request, res: Response) => {
     }
 
     const data = await reviewModel.aggregate([
-      { $unwind: '$reviews' }, // Unwind the reviews array
-      { $match: { 'reviews.userId': userId } }, // Match reviews with the given userId
-      { $group: { _id: null, reviews: { $push: '$reviews' } } } // Group back into a single array
+      { $unwind: '$reviews' },
+      { $match: { 'reviews.userId': userId } },
+      {
+        $group: {
+          _id: {
+            bookId: '$bookId',
+            userId: '$reviews.userId'
+          },
+          reviews: { $push: '$reviews' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'books',
+          localField: '_id.bookId',
+          foreignField: 'bookId',
+          as: 'bookInfo'
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          bookId: '$_id.bookId',
+          userId: '$_id.userId',
+          userReview: { $arrayElemAt: ['$reviews.userReview', 0] },
+          bookTitle: { $arrayElemAt: ['$bookInfo.title', 0] }
+        }
+      }
     ]);
 
     if (data.length > 0) {
-      res.json(data[0].reviews);
+      res.json(data);
     } else {
       res.json([]);
     }
@@ -155,8 +180,52 @@ const fetchUserReview = async (req: Request, res: Response) => {
   }
 };
 
+const deleteReview = async (req: Request, res: Response) => {
+  try {
+    const { userId, bookId } = req.body; // Assuming you send userId and bookId in the request body
+
+    const userIdValidation = Joi.object({
+      userId: Joi.string().required(),
+      bookId: Joi.string().required()
+    });
+
+    const { error } = userIdValidation.validate({ userId, bookId });
+
+    if (error) {
+      return res.status(HttpStatusCode.BadRequest).json({
+        status: httpStatusConstant.BAD_REQUEST,
+        code: HttpStatusCode.BadRequest,
+        message: error.details[0].message.replace(/"/g, '')
+      });
+    }
+
+    const result = await reviewModel.updateOne({ 'reviews.userId': userId }, { $pull: { reviews: { userId } } });
+
+    if (result.modifiedCount > 0) {
+      res.json({
+        status: httpStatusConstant.SUCCESS,
+        code: HttpStatusCode.Ok,
+        message: 'Review deleted successfully'
+      });
+    } else {
+      res.status(HttpStatusCode.NotFound).json({
+        status: httpStatusConstant.NOT_FOUND,
+        code: HttpStatusCode.NotFound,
+        message: 'Review not found for the specified user and book'
+      });
+    }
+  } catch (err: any) {
+    console.error('Error deleting user review:', err);
+    res.status(HttpStatusCode.InternalServerError).json({
+      status: httpStatusConstant.ERROR,
+      code: HttpStatusCode.InternalServerError
+    });
+  }
+};
+
 export default {
   handleUserReview,
   fetchReview,
-  fetchUserReview
+  fetchUserReview,
+  deleteReview
 };

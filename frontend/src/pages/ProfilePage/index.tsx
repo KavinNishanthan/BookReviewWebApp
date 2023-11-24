@@ -1,20 +1,55 @@
 // Importing assets
 import { Player } from '@lottiefiles/react-lottie-player';
+import { useEffect, useState } from 'react';
 
 export default function ProfilePage() {
-  const reviews = [
-    { bookName: 'Book name', userReview: 'This is a great book!' },
-    {
-      bookName: 'Book name',
-      userReview:
-        "I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much.I didn't like this book very much."
-    }
-    // Add more reviews as needed
-  ];
+  const [reviews, setReviews] = useState([]);
 
   var profile_url = localStorage.getItem('profile');
   var User_name = localStorage.getItem('name');
   var User_email = localStorage.getItem('email');
+  var User_id = localStorage.getItem('usid');
+
+  const fetchUserReviews = async () => {
+    fetch(`http://localhost:8080/api/review/fetch-review/user/${User_id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setReviews(data);
+      })
+      .catch((error) => console.error('Error fetching in User Review:', error));
+  };
+
+  const handleDleteReview = async (bookId: any) => {
+    try {
+      const response = await fetch('http://localhost:8080/api/review/delete-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          bookId: bookId,
+          userId: User_id
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        alert('Review deleted Successfully!');
+        fetchUserReviews();
+      } else {
+        if (response.status === 404) {
+          alert('Error occured');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserReviews();
+  }, [User_id]);
 
   return (
     <div>
@@ -30,14 +65,19 @@ export default function ProfilePage() {
               </p>
               <div className="max-h-[12rem] overflow-y-auto mt-4 border border-gray rounded-lg">
                 <div className="p-5">
-                  {reviews.map((review, index) => (
-                    <div key={index} className="mb-2 mt-2">
+                  {reviews.map((review) => (
+                    <div key={review.bookId} className="mb-2 mt-2">
                       <div className="flex">
                         <div>
-                          <p className="text-lg font-semibold">{review.bookName}</p>
+                          <p className="text-lg font-semibold">{review.bookTitle}</p>
                           <p className="text-gray-700">{review.userReview}</p>
                         </div>
-                        <div className="ml-auto mr-10 items-center justify-center ">
+                        <div
+                          className="ml-auto mr-10 items-center justify-center "
+                          onClick={() => {
+                            handleDleteReview(review.bookId);
+                          }}
+                        >
                           <Player
                             autoplay
                             loop

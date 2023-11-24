@@ -11,6 +11,8 @@ const router = Router();
 router.post('/addReview', reviewController.handleUserReview);
 router.get('/fetch-review/:bookId', reviewController.fetchReview);
 router.get('/fetch-review/user/:userId', reviewController.fetchUserReview);
+router.post('/delete-review', reviewController.deleteReview);
+
 
 export default router;
 
