@@ -4,6 +4,7 @@ exports.default = {
     // User messages
     USER_ID_REQUIRED: 'User Id is required!',
     USER_NOT_FOUND: 'User Not Found!',
+    USER_CREATED: 'User CREATED!',
     USER_ALREADY_EXISTS: 'User already exist!',
     INVALID_CREDENTIALS: 'Invalid Credentials!',
     USERNAME_ALREADY_EXISTS: 'Username already exist!',

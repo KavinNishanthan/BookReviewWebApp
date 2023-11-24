@@ -12,4 +12,5 @@ const router = (0, express_1.Router)();
 // Manual auth routes
 router.post('/register', auth_controller_1.default.handleRegister);
 router.post('/manual/login', auth_controller_1.default.handleLogin);
+router.post('/google/login', auth_controller_1.default.handleGoogleSignIn);
 exports.default = router;

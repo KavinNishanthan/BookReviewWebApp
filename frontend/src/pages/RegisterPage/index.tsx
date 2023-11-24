@@ -9,6 +9,7 @@ import LoadingBtn from '../../components/FormComponents/LoadingBtn';
 
 // Importing assets
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
+import GoogleAuthConfiguration from '../../components/GoogleOAuthComponents';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -95,8 +96,8 @@ export default function RegisterPage() {
 
           <div className="fnt text-black text-sm mt-1">Connect, Capture, and Thrive 🌐📈</div>
 
-          <div className="flex justify-center items-center mt-[6.5rem]">
-            {/* <GoogleLoginButton label="SignUp" /> */}
+          <div className="flex justify-center items-center mt-[1rem]">
+            <GoogleAuthConfiguration />
           </div>
 
           <div className="flex justify-center items-center mt-4 pl-[1rem] pr-[1rem]">

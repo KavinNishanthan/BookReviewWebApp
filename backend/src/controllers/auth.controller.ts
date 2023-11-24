@@ -141,7 +141,57 @@ const handleLogin = async (req: Request, res: Response) => {
   }
 };
 
+
+const handleGoogleSignIn = async (req: Request, res: Response) => {
+  try {
+    const { email, name, profilePicture } = req.body;
+
+    // Check if the user with the provided email already exists
+    const existingUser = await userModel.findOne({ email });
+
+    if (existingUser) {
+      return res.status(HttpStatusCode.Ok).json({
+        status: httpStatusConstant.OK,
+        code: HttpStatusCode.Ok,
+        message: responseMessageConstant.ACCOUNT_ASSOCIATED_WITH_GOOGLE,
+        userId: existingUser.userId,
+        email: existingUser.email,
+        name: existingUser.name,
+        profilePicture: existingUser.profilePicture
+      });
+    }
+    const generatedUserId = generateUUID();
+
+    const newUser = new userModel({
+      userId: generatedUserId,
+      email,
+      name,
+      profilePicture,
+      isManualAuth: false
+    });
+
+    await newUser.save();
+
+    res.status(HttpStatusCode.Created).json({
+      status: httpStatusConstant.CREATED,
+      code: HttpStatusCode.Created,
+      message: responseMessageConstant.USER_CREATED,
+      userId: newUser.userId,
+      email: newUser.email,
+      name: newUser.name,
+      profilePicture: newUser.profilePicture
+    });
+  } catch (err: any) {
+    res.status(HttpStatusCode.InternalServerError).json({
+      status: httpStatusConstant.ERROR,
+      code: HttpStatusCode.InternalServerError,
+      message: responseMessageConstant.INVALID_CREDENTIALS
+    });
+  }
+};
+
 export default {
   handleRegister,
-  handleLogin
+  handleLogin,
+  handleGoogleSignIn
 };

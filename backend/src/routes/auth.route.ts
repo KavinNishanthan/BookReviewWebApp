@@ -10,5 +10,6 @@ const router = Router();
 // Manual auth routes
 router.post('/register', authController.handleRegister);
 router.post('/manual/login', authController.handleLogin);
+router.post('/google/login', authController.handleGoogleSignIn);
 
 export default router;

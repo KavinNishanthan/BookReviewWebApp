@@ -140,7 +140,51 @@ const handleLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             .json({ status: http_message_constant_1.default.ERROR, code: axios_1.HttpStatusCode.InternalServerError });
     }
 });
+const handleGoogleSignIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, name, profilePicture } = req.body;
+        // Check if the user with the provided email already exists
+        const existingUser = yield user_model_1.default.findOne({ email });
+        if (existingUser) {
+            return res.status(axios_1.HttpStatusCode.Ok).json({
+                status: http_message_constant_1.default.OK,
+                code: axios_1.HttpStatusCode.Ok,
+                message: response_message_constant_1.default.ACCOUNT_ASSOCIATED_WITH_GOOGLE,
+                userId: existingUser.userId,
+                email: existingUser.email,
+                name: existingUser.name,
+                profilePicture: existingUser.profilePicture
+            });
+        }
+        const generatedUserId = (0, uuid_helper_1.generateUUID)();
+        const newUser = new user_model_1.default({
+            userId: generatedUserId,
+            email,
+            name,
+            profilePicture,
+            isManualAuth: false
+        });
+        yield newUser.save();
+        res.status(axios_1.HttpStatusCode.Created).json({
+            status: http_message_constant_1.default.CREATED,
+            code: axios_1.HttpStatusCode.Created,
+            message: response_message_constant_1.default.USER_CREATED,
+            userId: newUser.userId,
+            email: newUser.email,
+            name: newUser.name,
+            profilePicture: newUser.profilePicture
+        });
+    }
+    catch (err) {
+        res.status(axios_1.HttpStatusCode.InternalServerError).json({
+            status: http_message_constant_1.default.ERROR,
+            code: axios_1.HttpStatusCode.InternalServerError,
+            message: response_message_constant_1.default.INVALID_CREDENTIALS
+        });
+    }
+});
 exports.default = {
     handleRegister,
-    handleLogin
+    handleLogin,
+    handleGoogleSignIn
 };
