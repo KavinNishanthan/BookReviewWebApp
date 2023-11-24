@@ -1,9 +1,18 @@
+import { useNavigate } from 'react-router-dom';
+
 export function BookCard({ books }: any) {
+  const navigate = useNavigate();
+
   console.log(books);
   if (!books || !Array.isArray(books)) {
     console.error('Invalid or missing "books" prop:', books);
     return null;
   }
+
+  const handleButtonClick = (bookId: string) => {
+    navigate(`/review/${bookId}`);
+  };
+
   return (
     <div className="flex items-center justify-center mt-5">
       <div className="grid grid-cols-1 gap-20 md:grid-cols-2 lg:grid-cols-3">
@@ -27,7 +36,12 @@ export function BookCard({ books }: any) {
                   <hr />
                   <h1 className="mb-1">Categories : {book.category}</h1>
                 </p>
-                <button className="rounded-full bg-neutral-900 px-3.5 py-2 font-com text-sm capitalize text-white shadow shadow-black/60">
+                <button
+                  className="rounded-full bg-neutral-900 px-3.5 py-2 font-com text-sm capitalize text-white shadow shadow-black/60"
+                  onClick={() => {
+                    handleButtonClick(book.bookId);
+                  }}
+                >
                   See Review
                 </button>
               </div>

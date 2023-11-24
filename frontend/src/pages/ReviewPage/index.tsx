@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 // Importing styles
 import './style.scss';
 import { useParams } from 'react-router-dom';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 export default function ReviewPage() {
   const [comment, setComment] = useState<string>('');
@@ -120,7 +121,17 @@ export default function ReviewPage() {
               </div>
               <div className="content-item">
                 <div className="content-label">
-                  Rating : <span></span>
+                  Rating :{' '}
+                  <div className="-mt-5">
+                    <span className="">
+                      <Player
+                        autoplay
+                        loop
+                        src="https://lottie.host/497c0df2-7573-4e34-a756-a812395f0f39/pyNbwTgzF5.json"
+                        style={{ height: '1rem', width: '100px' }}
+                      ></Player>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
