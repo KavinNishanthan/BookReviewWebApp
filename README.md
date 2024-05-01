@@ -3,8 +3,6 @@ Welcome to the Book Review Web App repository📚🌐
 
 At the center of this repository lies our objective: to establish a lively book review platform that unites enthusiastic readers, encourages valuable discussions, and appreciates the diverse world of books.
 
-[PROJECT REPORT-LINK](https://drive.google.com/file/d/1KyvwfZSnmQj_BrK7FNHHTwt3mL_oMz8n/view?usp=sharing)
-
 # FRONT END:
 
 <img width="1280" alt="Signup" src="https://github.com/KavinNishanthan/BookReviewWebApp/assets/93438911/d0eb676a-1696-4d20-a802-98f155be0ac6">
