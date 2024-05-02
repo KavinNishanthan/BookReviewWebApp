@@ -76,7 +76,7 @@ const handleUserReview = async (req: Request, res: Response) => {
 /**
  * @createdBy Kavin Nishanthan
  * @createdAt 2023-11-09
- * @description This function is used to Fetch user Review
+ * @description This function is used to FetchReview
  */
 
 const fetchReview = async (req: Request, res: Response) => {
@@ -116,6 +116,12 @@ const fetchReview = async (req: Request, res: Response) => {
     });
   }
 };
+
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-10
+ * @description This function is used to Fetch user Review
+ */
 
 const fetchUserReview = async (req: Request, res: Response) => {
   try {
@@ -180,9 +186,16 @@ const fetchUserReview = async (req: Request, res: Response) => {
   }
 };
 
+
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-10
+ * @description This function is used to Delete user Review
+ */
+
 const deleteReview = async (req: Request, res: Response) => {
   try {
-    const { userId, bookId } = req.body; // Assuming you send userId and bookId in the request body
+    const { userId, bookId } = req.body;
 
     const userIdValidation = Joi.object({
       userId: Joi.string().required(),

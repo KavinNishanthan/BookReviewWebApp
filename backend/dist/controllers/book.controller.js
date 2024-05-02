@@ -45,12 +45,12 @@ const handleAddBook = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 message: error.details[0].message.replace(/"/g, '')
             });
         }
-        const checkIsUserExists = yield book_model_1.default
+        const checkIsBookExists = yield book_model_1.default
             .findOne({
             title
         })
             .select('title -_id');
-        if (checkIsUserExists) {
+        if (checkIsBookExists) {
             res.status(axios_1.HttpStatusCode.Conflict).json({
                 status: http_message_constant_1.default.CONFLICT,
                 code: axios_1.HttpStatusCode.Conflict,

@@ -55,7 +55,7 @@ export default function ProfilePage() {
     <div>
       <div className="flex h-screen items-center justify-center">
         <div className="bg-white shadow-2xl p-10 rounded-lg w-[50rem] h-[32rem] -mt-10">
-          <img src={profile_url} alt="Profile" className="w-20 h-20 mx-auto rounded-full" />
+          <img src={profile_url || ''} alt="Profile" className="w-20 h-20 mx-auto rounded-full" />
           <p className="text-3xl font-bold text-center mt-2">{User_name}</p>
           <p className="text-2xl text-gray-600 text-center">{User_email}</p>
           <div>

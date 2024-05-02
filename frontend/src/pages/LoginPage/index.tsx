@@ -52,13 +52,14 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         console.log('Logged in:', data);
+        console.log(data.profilePicture);
         navigate('/');
       } else {
         if (response.status === 404) {
-          alert("Account Not yet Registered");
+          alert('Account Not yet Registered');
         }
         if (response.status === 401) {
-          alert("Invalid Credentials!");
+          alert('Invalid Credentials!');
         }
       }
     } catch (error) {

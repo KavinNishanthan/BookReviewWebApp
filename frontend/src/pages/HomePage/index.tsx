@@ -13,14 +13,16 @@ export default function Home() {
   useEffect(() => {
     fetch('http://localhost:8080/api/book/fetch-book')
       .then((response) => response.json())
-      .then((data) => setBooks(data))
+      .then((data) => {
+        setBooks(data);
+        setFilteredBooks(data);
+      })
       .catch((error) => console.error('Error fetching books:', error));
   }, []);
 
   const handleSearch = (term: SetStateAction<string>) => {
     setSearchTerm(term);
 
-    // Filter books based on the search term
     const filtered = books.filter((book: { title: string }) => book.title.toLowerCase().includes(term.toLowerCase()));
 
     setFilteredBooks(filtered);

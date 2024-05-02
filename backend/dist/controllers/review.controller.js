@@ -79,7 +79,7 @@ const handleUserReview = (req, res) => __awaiter(void 0, void 0, void 0, functio
 /**
  * @createdBy Kavin Nishanthan
  * @createdAt 2023-11-09
- * @description This function is used to Fetch user Review
+ * @description This function is used to FetchReview
  */
 const fetchReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -117,6 +117,11 @@ const fetchReview = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-10
+ * @description This function is used to Fetch user Review
+ */
 const fetchUserReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userId } = req.params;
@@ -176,9 +181,14 @@ const fetchUserReview = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-10
+ * @description This function is used to Delete user Review
+ */
 const deleteReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId, bookId } = req.body; // Assuming you send userId and bookId in the request body
+        const { userId, bookId } = req.body;
         const userIdValidation = joi_1.default.object({
             userId: joi_1.default.string().required(),
             bookId: joi_1.default.string().required()

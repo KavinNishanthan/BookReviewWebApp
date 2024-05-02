@@ -40,13 +40,13 @@ const handleAddBook = async (req: Request, res: Response) => {
       });
     }
 
-    const checkIsUserExists = await bookModel
+    const checkIsBookExists = await bookModel
       .findOne({
         title
       })
       .select('title -_id');
 
-    if (checkIsUserExists) {
+    if (checkIsBookExists) {
       res.status(HttpStatusCode.Conflict).json({
         status: httpStatusConstant.CONFLICT,
         code: HttpStatusCode.Conflict,

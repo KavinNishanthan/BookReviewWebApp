@@ -4,10 +4,12 @@ import { Schema, model } from 'mongoose';
 // Importing interfaces
 import { IBook } from '../interfaces/models.interface';
 
+
+
 const schema = new Schema<IBook>({
   bookId: {
     type: String,
-    required: true
+    require: true
   },
   title: { type: String, required: true },
   author: { type: String, required: true },

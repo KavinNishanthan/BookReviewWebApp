@@ -3,5 +3,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @createdBy Kavin Nishanthan
  * @createdAt 2023-11-19
- * @description This function is used to handle user register
+ * @description This function is used to Verify user register
  */

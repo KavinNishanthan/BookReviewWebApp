@@ -140,10 +140,14 @@ const handleLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             .json({ status: http_message_constant_1.default.ERROR, code: axios_1.HttpStatusCode.InternalServerError });
     }
 });
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used Google Signin
+ */
 const handleGoogleSignIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, name, profilePicture } = req.body;
-        // Check if the user with the provided email already exists
         const existingUser = yield user_model_1.default.findOne({ email });
         if (existingUser) {
             return res.status(axios_1.HttpStatusCode.Ok).json({

@@ -141,12 +141,16 @@ const handleLogin = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * @createdBy Kavin Nishanthan
+ * @createdAt 2023-11-09
+ * @description This function is used Google Signin
+ */
 
 const handleGoogleSignIn = async (req: Request, res: Response) => {
   try {
     const { email, name, profilePicture } = req.body;
 
-    // Check if the user with the provided email already exists
     const existingUser = await userModel.findOne({ email });
 
     if (existingUser) {
