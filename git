@@ -1,3 +1,7 @@
 git init 
 git add .
 git commit -m "message"
+git checkout 660b2267fb8ac888eec3d4ee33cd22feb1889f44
+git checkout -f main
+
+this is new feature
