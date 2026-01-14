@@ -1,15 +1,22 @@
+// Importing packages
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
+// Importing components
 import BookInput from '../../components/FormComponents/BookInput';
 import BookButton from '../../components/FormComponents/BookButton';
 
+// Importing assets
 import Girlbook from '../../assets/attraction/Girlbook.svg';
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';
+import GoogleAuthConfiguration from '../../components/GoogleOAuthComponents';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
+  localStorage.setItem('flag', '0');
 
   const [formData, setFormData] = useState({
     email: '',
@@ -21,8 +28,45 @@ const LoginPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleSubmit = async () => {
-    console.log('button clicked');
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:8080/api/auth/manual/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      const data = await response.json();
+      console.log('Server Response:', data);
+      localStorage.setItem('usid', data.userId);
+      localStorage.setItem('profile', data.profilePicture);
+      localStorage.setItem('name', data.name);
+      localStorage.setItem('email', data.email);
+
+      if (response.status === 200) {
+        console.log('Logged in:', data);
+        console.log(data.profilePicture);
+        navigate('/');
+      } else {
+        if (response.status === 404) {
+          alert('Account Not yet Registered');
+        }
+        if (response.status === 401) {
+          alert('Invalid Credentials!');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,8 +94,8 @@ const LoginPage = () => {
 
           <div className="fnt text-black text-sm mt-1">Unveil the World of Book Reviews.</div>
 
-          <div className="flex justify-center items-center mt-[5rem]">
-            {/* <GoogleLoginButton label="Login with Google" /> */}
+          <div className="flex justify-center items-center mt-[1rem]">
+            <GoogleAuthConfiguration />
           </div>
 
           <div className="flex justify-center items-center mt-5 pl-[1rem] pr-[1rem]">
@@ -107,9 +151,12 @@ const LoginPage = () => {
           <div className="text-m text-[#696868] mt-3 font-semibold">
             New User?{' '}
             <span className="text-black">
-              <span>Sign Up</span>
+              <Link to="/register">
+                <span>Sign Up</span>
+              </Link>
             </span>
           </div>
+
           <div className="text-m mt-12 text-[#878787]">
             <ul className="flex">
               <li className="p-2 pl-4">Privacy Policy</li>

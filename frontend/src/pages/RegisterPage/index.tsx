@@ -1,12 +1,18 @@
+// Importing packages
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+// Importing components
 import BookInput from '../../components/FormComponents/BookInput';
 import BookButton from '../../components/FormComponents/BookButton';
 import LoadingBtn from '../../components/FormComponents/LoadingBtn';
 
+// Importing assets
 import whitelogo from '../../assets/svg/brand/white-logo.svg';
+import GoogleAuthConfiguration from '../../components/GoogleOAuthComponents';
 
-const Signup = () => {
+export default function RegisterPage() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstname: '',
@@ -21,6 +27,39 @@ const Signup = () => {
       ...prevData,
       [name]: value
     }));
+  };
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await fetch('http://localhost:8080/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: `${formData.firstname} ${formData.lastname}`,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      if (response.status === 201) {
+        navigate('/login');
+        setFormData(formData);
+        const data = await response.json();
+        console.log('Server Response:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -57,8 +96,8 @@ const Signup = () => {
 
           <div className="fnt text-black text-sm mt-1">Connect, Capture, and Thrive 🌐📈</div>
 
-          <div className="flex justify-center items-center mt-[6.5rem]">
-            {/* <GoogleLoginButton label="SignUp" /> */}
+          <div className="flex justify-center items-center mt-[1rem]">
+            <GoogleAuthConfiguration />
           </div>
 
           <div className="flex justify-center items-center mt-4 pl-[1rem] pr-[1rem]">
@@ -66,7 +105,7 @@ const Signup = () => {
             <span className="text-xs text-[#929292]">Or with email</span>
             <hr className=" w-[9rem] h-[0.050rem] mx-auto bg-gray-100 border-0 rounded dark:bg-gray-300" />
           </div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="flex justify-center items-center text-sm font-black">
               <div className="p-2">
                 <BookInput
@@ -85,7 +124,7 @@ const Signup = () => {
                   name="lastname"
                   type="text"
                   placeholder="E.g. Kavin"
-                  value={formData.firstname}
+                  value={formData.lastname}
                   onChange={handleChange}
                 />
               </div>
@@ -97,7 +136,7 @@ const Signup = () => {
                 name="email"
                 type="email"
                 placeholder="E.g. kavin@gmail.com"
-                value={formData.firstname}
+                value={formData.email}
                 onChange={handleChange}
               />
             </div>
@@ -108,7 +147,7 @@ const Signup = () => {
                 name="password"
                 type="password"
                 placeholder="Password"
-                value={formData.firstname}
+                value={formData.password}
                 onChange={handleChange}
               />
             </div>
@@ -125,7 +164,7 @@ const Signup = () => {
               ) : (
                 <BookButton
                   className="bg-[#2B66F6] text-white font-bold py-2 w-[21rem] rounded"
-                  children="Login"
+                  children="Sign Up"
                   type="submit"
                   onClick={() => {}}
                 />
@@ -133,7 +172,7 @@ const Signup = () => {
             </div>
           </form>
           <div className="text-m text-[#696868] mt-3 font-semibold">
-            Already have an account? <span className="text-black">{/* <Link to="/">Sign In</Link> */}</span>
+            Already have an account? <span className="text-black">{<Link to="/login">Login</Link>}</span>
           </div>
 
           <div className="text-m mt-12 text-[#878787]">
@@ -146,6 +185,4 @@ const Signup = () => {
       </div>
     </div>
   );
-};
-
-export default Signup;
+}
